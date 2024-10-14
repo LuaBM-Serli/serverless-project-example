@@ -1,379 +1,428 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "TODO API ",
+    "title": "MonSuperBusiness E-Commerce API",
     "version": "1.0.0",
-    "description": "# TEST Introduction\nWelcome to the reference for the TODO API! \n\nTODO API is a simple api to handle tasks.",
+    "description": "The MonSuperBusiness E-Commerce API provides programmatic access to manage users, products, orders, and payments for the MonSuperBusiness online store. This API allows clients to integrate shopping functionalities into their own applications, handle orders, manage customer data, and process payments.",
+    "termsOfService": "https://monsuperbusiness.com/terms/",
     "contact": {
-      "name": "TODO API",
-      "url": "https://www.cloud-apim.com",
-      "email": "contact@cloud-apim.com"
+      "name": "MonSuperBusiness API Support",
+      "url": "https://monsuperbusiness.com/support",
+      "email": "support@monsuperbusiness.com"
     },
-    "x-logo-none": {
-      "url": "https://www.cloud-apim.com/assets/logo/cloud-apim-logo-inverted.png"
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
   "tags": [
     {
-      "name": "task",
-      "description": "Task management"
+      "name": "Users",
+      "description": "Operations related to managing users"
+    },
+    {
+      "name": "Products",
+      "description": "Operations related to products in the store"
+    },
+    {
+      "name": "Orders",
+      "description": "Operations for creating and managing customer orders"
+    },
+    {
+      "name": "Payments",
+      "description": "Operations for processing payments and handling transactions"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://sandbox.monsuperbusiness.com/api/v1",
+      "description": "Sandbox environment for testing"
+    },
+    {
+      "url": "https://api.monsuperbusiness.com/v1",
+      "description": "Production environment"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the user",
+            "example": "usr_abc123"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name of the user",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the user",
+            "example": "john.doe@example.com"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role of the user (e.g., admin, customer)",
+            "example": "customer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the user account was created",
+            "example": "2023-09-25T12:34:56Z"
+          }
+        },
+        "required": ["id", "name", "email", "role"]
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the product",
+            "example": "prod_001"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the product",
+            "example": "MonSuperWidget"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the product",
+            "example": "A high-quality widget for all your widgeting needs."
+          },
+          "price": {
+            "type": "number",
+            "description": "Price of the product in USD",
+            "example": 19.99
+          },
+          "stock": {
+            "type": "integer",
+            "description": "Number of items in stock",
+            "example": 150
+          },
+          "category": {
+            "type": "string",
+            "description": "Product category",
+            "example": "gadgets"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the product was added",
+            "example": "2023-09-21T08:45:30Z"
+          }
+        },
+        "required": ["id", "name", "price", "stock"]
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the order",
+            "example": "ord_456xyz"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who placed the order",
+            "example": "usr_abc123"
+          },
+          "productIds": {
+            "type": "array",
+            "description": "List of product IDs included in the order",
+            "items": {
+              "type": "string",
+              "example": "prod_001"
+            }
+          },
+          "totalAmount": {
+            "type": "number",
+            "description": "Total amount of the order in USD",
+            "example": 39.98
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the order (e.g., pending, shipped, delivered)",
+            "example": "pending"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the order was created",
+            "example": "2023-09-25T13:00:00Z"
+          }
+        },
+        "required": ["id", "userId", "productIds", "totalAmount", "status"]
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the payment",
+            "example": "pay_789ghi"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "ID of the order associated with this payment",
+            "example": "ord_456xyz"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount paid in USD",
+            "example": 39.98
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the payment (e.g., completed, failed)",
+            "example": "completed"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Payment method used (e.g., credit card, PayPal)",
+            "example": "credit_card"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the payment was processed",
+            "example": "2023-09-25T13:10:00Z"
+          }
+        },
+        "required": ["id", "orderId", "amount", "status", "paymentMethod"]
+      }
+    },
+    "securitySchemes": {
+      "cloud-apim-bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "cloud-apim-bearer",
+        "name": "Cloud APIM Bearer",
+        "description": "A token provided with Cloud APIM API keys that looks like `otoapk_xxxxxxxx_xxxxxxxxxxxxx`.",
+        "in": "header"
+      },
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "An API key to authenticate requests."
+      }
+    }
+  },
+  "security": [
+    {
+      "cloud-apim-bearer": [],
+      "apiKeyAuth": []
     }
   ],
   "paths": {
-    "/todos": {
+    "/users": {
       "get": {
-        "tags": [
-          "task"
-        ],
-        "summary": "Get the list of all tasks",
-        "operationId": "tasksGetAll",
+        "tags": ["Users"],
+        "summary": "Retrieve a list of all users",
+        "operationId": "getUsers",
         "responses": {
           "200": {
-            "description": "List of all tasks",
+            "description": "A list of users",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Task"
+                    "$ref": "#/components/schemas/User"
                   }
                 }
               }
             }
           },
-          "default": {
-            "description": "Generic error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "cloud-apim-bearer": [],
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a new user",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
               }
             }
           }
         },
-        "x-cloud-apim-backend": {
-          "$ref": "#/components/x-cloud-apim-backends/jsonplaceholder"
-        },
-        "x-cloud-apim-plugins": {
-          "$ref": "#/components/x-cloud-apim-plugins/all"
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Retrieve a list of all products",
+        "operationId": "getProducts",
+        "responses": {
+          "200": {
+            "description": "A list of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
         }
       },
       "post": {
-        "tags": [
-          "task"
-        ],
-        "summary": "Create a new task",
-        "operationId": "tasksCreate",
+        "tags": ["Products"],
+        "summary": "Add a new product to the store",
+        "operationId": "addProduct",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Task"
+                "$ref": "#/components/schemas/Product"
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "The created task",
+          "201": {
+            "description": "Product added successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Task"
+                  "$ref": "#/components/schemas/Product"
                 }
               }
             }
           },
-          "default": {
-            "description": "Generic error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+          "400": {
+            "description": "Invalid input"
           }
         },
-        "x-cloud-apim-backend": {
-          "$ref": "#/components/x-cloud-apim-backends/jsonplaceholder"
-        },
-        "x-cloud-apim-plugins": {
-          "$ref": "#/components/x-cloud-apim-plugins/all"
-        }
-      }
-    },
-    "/todos/{taskId}": {
-      "parameters": [
-        {
-          "name": "taskId",
-          "in": "path",
-          "description": "The id of the task",
-          "required": true,
-          "schema": {
-            "type": "integer"
-          },
-          "example": "e1cb23d0-6cbe-4a29-b586-bfa424bc93fd"
-        }
-      ],
-      "get": {
-        "tags": [
-          "task"
-        ],
-        "summary": "Get a single task based on its id",
-        "operationId": "tasksRead",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Task"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Generic error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "x-cloud-apim-backend": {
-          "$ref": "#/components/x-cloud-apim-backends/jsonplaceholder"
-        },
-        "x-cloud-apim-plugins": {
-          "$ref": "#/components/x-cloud-apim-plugins/all"
-        }
-      },
-      "put": {
-        "tags": [
-          "task"
-        ],
-        "summary": "Update an existing task",
-        "operationId": "tasksUpdate",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Task"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "The updated task",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Task"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "Generic error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "x-cloud-apim-backend": {
-          "$ref": "#/components/x-cloud-apim-backends/jsonplaceholder"
-        },
-        "x-cloud-apim-plugins": {
-          "$ref": "#/components/x-cloud-apim-plugins/all"
-        }
-      },
-      "delete": {
-        "tags": [
-          "task"
-        ],
-        "summary": "Delete an existing task",
-        "operationId": "tasksDelete",
-        "responses": {
-          "204": {
-            "description": "Task deleted response"
-          },
-          "default": {
-            "description": "Generic error response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        },
-        "x-cloud-apim-backend": {
-          "$ref": "#/components/x-cloud-apim-backends/jsonplaceholder"
-        },
-        "x-cloud-apim-plugins": {
-          "$ref": "#/components/x-cloud-apim-plugins/all"
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Task": {
-        "description": "Object representing a Task",
-        "required": [
-          "description"
-        ],
-        "type": "object",
-        "properties": {
-          "completed": {
-            "description": "indicates if a taks is completed or not",
-            "type": "boolean"
-          },
-          "title": {
-            "description": "description of the task",
-            "type": "string",
-            "examples": ["My important task", "Do something"]
-          },
-          "id": {
-            "description": "id of the task",
-            "type": "integer",
-            "readOnly": true,
-            "format": "int32",
-            "examples": [1, 2, 3, 4]
-          },
-          "userId": {
-            "description": "id of the user that created the task",
-            "type": "integer",
-            "format": "int32",
-            "examples": [1, 2, 3, 4]
-          }
-        }
-      },
-      "Error": {
-        "description": "Object representing an error",
-        "type": "object",
-        "properties": {
-          "code": {
-            "format": "int32",
-            "description": "Error code that identify of the error",
-            "type": "integer",
-            "examples": ["1000"]
-          },
-          "message": {
-            "description": "Short description of the error",
-            "type": "string",
-            "examples": ["Could not perform the task"]
-          }
-        }
-      }
-    },
-    "x-cloud-apim-plugins": {
-      "all": [
-        {
-          "enabled": true,
-          "plugin": "cp:otoroshi.next.plugins.ForceHttpsTraffic"
-        },
-        {
-          "enabled": true,
-          "plugin": "cp:otoroshi.next.plugins.DisableHttp10"
-        },
-        {
-          "enabled": true,
-          "plugin": "cp:otoroshi.next.plugins.OverrideHost"
-        },
-        {
-          "enabled": true,
-          "plugin": "cp:otoroshi.next.plugins.SendOtoroshiHeadersBack"
-        },
-        {
-          "enabled": true,
-          "plugin": "cp:otoroshi.next.plugins.OtoroshiInfos",
-          "config": {
-            "version": "Latest",
-            "ttl": 30,
-            "header_name": "Otoroshi-Infos",
-            "add_fields": null,
-            "algo": {
-              "type": "HSAlgoSettings",
-              "size": 512,
-              "secret": "${environment.OTOROSHI_INFOS_SIGNATURE_SECRET}",
-              "base64": false
-            }
-          }
-        },
-        {
-          "enabled": false,
-          "plugin": "cp:otoroshi.next.plugins.Cors",
-          "config": {
-            "allow_origin": "*",
-            "expose_headers": [],
-            "allow_headers": [
-              "Authorization"
-            ],
-            "allow_methods": [
-              "GET", "PUT", "POST", "DELETE", "PATCH"
-            ],
-            "max_age": null,
-            "allow_credentials": true
-          }
-        },
-        {
-          "plugin": "cp:otoroshi.next.plugins.ApikeyCalls",
-          "enabled": true,
-          "config": {
-            "extractors": {
-              "basic": {
-                "enabled": true
-              },
-              "custom_headers": {
-                "enabled": true
-              },
-              "client_id": {
-                "enabled": false
-              },
-              "jwt": {
-                "enabled": true,
-                "secret_signed": true,
-                "keypair_signed": true,
-                "include_request_attrs": false
-              },
-              "oto_bearer": {
-                "enabled": true
-              }
-            },
-            "routing": {
-              "enabled": false
-            },
-            "validate": true,
-            "mandatory": true,
-            "pass_with_user": false,
-            "wipe_backend_request": true,
-            "update_quotas": true
-          }
-        }
-      ]
-    },
-    "x-cloud-apim-backends": {
-      "jsonplaceholder": {
-        "targets": [
+        "security": [
           {
-            "hostname": "jsonplaceholder.typicode.com",
-            "port": 443,
-            "tls": true
+            "apiKeyAuth": []
           }
-        ],
-        "root": "/",
-        "rewrite": false
+        ]
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Retrieve a list of all orders",
+        "operationId": "getOrders",
+        "responses": {
+          "200": {
+            "description": "A list of orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Place a new order",
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order placed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/payments": {
+      "post": {
+        "tags": ["Payments"],
+        "summary": "Process a payment for an order",
+        "operationId": "processPayment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Payment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Payment processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Payment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payment information"
+          }
+        }
       }
     }
   }
