@@ -204,6 +204,7 @@
         "bearerFormat": "cloud-apim-bearer",
         "name": "Cloud APIM Bearer",
         "description": "A token provided with Cloud APIM API keys that looks like `otoapk_xxxxxxxx_xxxxxxxxxxxxx`.",
+       
         "in": "header"
       },
       "apiKeyAuth": {
@@ -211,6 +212,7 @@
         "in": "header",
         "name": "X-API-Key",
         "description": "An API key to authenticate requests."
+         "example": "demo_1234567890abcdef",
       }
     }
   },
