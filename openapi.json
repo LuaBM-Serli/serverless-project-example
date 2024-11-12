@@ -218,8 +218,8 @@
   },
   "security": [
     {
-      "cloud-apim-bearer": [],
-      "apiKeyAuth": []
+      "cloud-apim-bearer": ["testCloudApimBearer"],
+      "apiKeyAuth": ["testapiKeyAuth"]
     }
   ],
   "paths": {
