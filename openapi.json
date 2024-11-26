@@ -211,7 +211,7 @@
         "type": "apiKey",
         "in": "header",
         "name": "X-API-Key",
-        "description": "An API key to authenticate requests.Use the mock key `demo_1234567890abcdef` for testing in the sandbox environment.",
+        "description": "An API key to authenticate requests.",
         "example": "demo_1234567890abcdef"
       }
     }
